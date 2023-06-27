@@ -1,5 +1,15 @@
-import { Text } from "react-native";
+import { View } from "react-native";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+
 const MainDashboard = () => {
-  return <Text>Main Dash</Text>;
+  return (
+    <View>
+      <Calendar
+        onDayPress={(day) => {
+          console.log(day);
+        }}
+      />
+    </View>
+  );
 };
 export default MainDashboard;
