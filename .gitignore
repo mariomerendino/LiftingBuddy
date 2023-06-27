@@ -17,3 +17,4 @@ mobile/.DS_Store
 mobile/.metro-health-check*
 
 server/tmp/
+server/log/
