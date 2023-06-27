@@ -1,0 +1,3 @@
+CURRENTDIR="$PWD"
+osascript -e 'tell application "Terminal" to do script "cd '$CURRENTDIR'/server && rails s"'
+osascript -e 'tell application "Terminal" to do script "cd '$CURRENTDIR'/client && npm run start"'
