@@ -10,9 +10,20 @@ class UserWorkoutsController < ApplicationController
     render json: user_workouts.to_json
   end
 
+  def create
+    date = Date.new(
+      user_workouts_params["year"].to_i,
+      user_workouts_params["month"].to_i,
+      user_workouts_params["day"].to_i
+    )
+    user_workout = current_user.user_workouts.where(workout_date: date).first_or_create
+
+    render json: user_workout.to_json
+  end
+
   private
 
   def user_workouts_params
-    params.permit(:month, :year, :user_workout)
+    params.permit(:month, :year, :day, :user_workout)
   end
 end

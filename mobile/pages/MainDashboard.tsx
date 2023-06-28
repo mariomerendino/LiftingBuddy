@@ -1,7 +1,13 @@
 import { View } from "react-native";
 import { useState, useEffect, useMemo } from "react";
 import { Calendar } from "react-native-calendars";
-import { GetWorkoutsForMonthAndYear, Workout } from "../api/workouts";
+import {
+  CreateOrFetchUserWorkout,
+  GetWorkoutsForMonthAndYear,
+  Workout,
+} from "../api/workouts";
+import { NavigationProp } from "@react-navigation/native";
+import { RootDrawerParamList } from "../App";
 
 interface HighlightedDate {
   selected?: boolean;
@@ -11,9 +17,13 @@ interface HighlightedDate {
 
 type HighlighedDates = { [key: string]: HighlightedDate };
 
+interface Props {
+  navigation: NavigationProp<RootDrawerParamList>;
+}
+
 const today = new Date();
 
-const MainDashboard = () => {
+const MainDashboard = ({ navigation }: Props) => {
   const [month, setMonth] = useState(today.getMonth() + 1);
   const [year, setYear] = useState(today.getFullYear());
   const [workouts, setWorkouts] = useState<Array<Workout>>([]);
@@ -28,13 +38,15 @@ const MainDashboard = () => {
 
   const formattedSelectedDates = useMemo(() => {
     let object: HighlighedDates = {};
-    workouts.forEach((workout) => {
-      object[`${workout.workout_date}`] = {
-        selected: true,
-        marked: true,
-        selectedColor: "lightblue",
-      };
-    });
+    if (workouts && workouts.length > 0) {
+      workouts.forEach((workout) => {
+        object[`${workout.workout_date}`] = {
+          selected: true,
+          marked: true,
+          selectedColor: "lightblue",
+        };
+      });
+    }
 
     return object;
   }, [workouts]);
@@ -46,8 +58,17 @@ const MainDashboard = () => {
           setMonth(date.month);
           setYear(date.year);
         }}
-        onDayPress={(day) => {
+        onDayPress={async (day) => {
           console.log(day);
+          let workout = await CreateOrFetchUserWorkout(
+            day.month,
+            day.year,
+            day.day
+          );
+
+          navigation.navigate("Workout", {
+            workout,
+          });
         }}
         markedDates={formattedSelectedDates}
       />

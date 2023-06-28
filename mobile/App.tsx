@@ -9,9 +9,18 @@ import MainDashboard from "./pages/MainDashboard";
 import NotificationsPage from "./pages/NotificationsPage";
 import SettingsPage from "./pages/SettingsPage";
 import AuthTokenContext from "./Contexts/AuthTokenContext";
+import ViewOrBuildWorkoutPage from "./pages/ViewOrBuildWorkoutPage";
+import { Workout } from "./api/workouts";
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+export type RootDrawerParamList = {
+  Home: {};
+  Notifications: {};
+  Settings: {};
+  Workout: { workout: Workout | null };
+};
+
+const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 export default function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
@@ -55,6 +64,12 @@ const MainPage = () => {
       <Drawer.Screen name="Home" component={MainDashboard} />
       <Drawer.Screen name="Notifications" component={NotificationsPage} />
       <Drawer.Screen name="Settings" component={SettingsPage} />
+      <Drawer.Screen
+        name="Workout"
+        component={ViewOrBuildWorkoutPage}
+        initialParams={{ workout: null }}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
     </Drawer.Navigator>
   );
 };
