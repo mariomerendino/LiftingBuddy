@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resource :token_validators, only: [:show]
   resource :users, only: [:create, :show] 
   resource :exercises, only: [:show]
+  resource :user_workouts, only: [:show]
 end
