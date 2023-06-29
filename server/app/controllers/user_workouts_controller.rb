@@ -1,7 +1,7 @@
 class UserWorkoutsController < ApplicationController
-  def show
-    require_login
+  before_action :require_login
 
+  def show
     beginning_of_month = Date.new(user_workouts_params["year"].to_i, user_workouts_params["month"].to_i)
     end_of_month = beginning_of_month.end_of_month
     user_workouts = UserWorkout.

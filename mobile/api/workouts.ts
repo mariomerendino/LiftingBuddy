@@ -7,6 +7,37 @@ export interface Workout {
   created_at: string
 }
 
+export interface WorkoutExercise {
+  id: number,
+  reps: number,
+  sets: string,
+  weight: string,
+  user_workout_id: number,
+}
+
+export const GetAllUserWorkoutExercises = async (user_workout_id: number) => {
+  const authToken = await GetAuthToken();
+
+  if(authToken == null) {
+    return [];
+  }
+  const url = `http://localhost:3000/user_workout_exercises?user_workout_id=${user_workout_id}`;
+  try {
+    const apiCall = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+      },
+    })
+    const data: Array<WorkoutExercise> = await apiCall.json();
+    return data;
+  }
+  catch {
+    alert("There was an error.")
+    return [];
+  }
+}
+
 export const CreateOrFetchUserWorkout = async (month: number, year: number, day: number) => {
   const authToken = await GetAuthToken();
 

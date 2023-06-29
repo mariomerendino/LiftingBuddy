@@ -66,9 +66,7 @@ const MainDashboard = ({ navigation }: Props) => {
             day.day
           );
 
-          navigation.navigate("Workout", {
-            workout,
-          });
+          navigation.navigate("Workout", { workout });
         }}
         markedDates={formattedSelectedDates}
       />

@@ -13,11 +13,16 @@ import ViewOrBuildWorkoutPage from "./pages/ViewOrBuildWorkoutPage";
 import { Workout } from "./api/workouts";
 
 const Stack = createNativeStackNavigator();
+
+export interface WorkoutPageParams {
+  workout: Workout | null;
+}
+
 export type RootDrawerParamList = {
   Home: {};
   Notifications: {};
   Settings: {};
-  Workout: { workout: Workout | null };
+  Workout: WorkoutPageParams;
 };
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
