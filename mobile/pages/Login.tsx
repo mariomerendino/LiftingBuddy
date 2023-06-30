@@ -32,26 +32,32 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>💪</Text>
-      <LiftyTextInput
-        onChange={(value) => {
-          setUsername(value);
-        }}
-        placeholder="Username"
-      />
-      <LiftyTextInput
-        onChange={(value) => {
-          setPassword(value);
-        }}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      <LiftyButton
-        text="Log In"
-        onPress={() => {
-          attemptLogin();
-        }}
-      />
+      <View style={styles.innerContatiner}>
+        <Text style={styles.header}>💪</Text>
+        <View style={styles.textInputContainer}>
+          <LiftyTextInput
+            onChange={(value) => {
+              setUsername(value);
+            }}
+            placeholder="Username"
+            customStyles={styles.textinput}
+          />
+          <LiftyTextInput
+            onChange={(value) => {
+              setPassword(value);
+            }}
+            placeholder="Password"
+            secureTextEntry={true}
+            customStyles={styles.textinput}
+          />
+          <LiftyButton
+            text="Log In"
+            onPress={() => {
+              attemptLogin();
+            }}
+          />
+        </View>
+      </View>
     </View>
   );
 };
@@ -59,12 +65,31 @@ const Login = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#C3D5DA",
+  },
+  innerContatiner: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "white",
+    alignItems: "center",
+    width: "80%",
+    maxHeight: "50%",
+    borderWidth: 2,
+    borderRadius: 20,
+    borderColor: "lightgray",
+    borderStyle: "solid",
   },
   header: {
     fontSize: 40,
+    paddingBottom: 20,
+  },
+  textInputContainer: {
+    width: "80%",
+  },
+  textinput: {
+    marginBottom: 15,
   },
 });
 
