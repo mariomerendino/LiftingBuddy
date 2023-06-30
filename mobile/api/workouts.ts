@@ -1,4 +1,5 @@
 import { GetAuthToken } from "./auth";
+import { BaseURL } from "./url";
 
 export interface Workout {
   id: number,
@@ -21,7 +22,7 @@ export const GetAllUserWorkoutExercises = async (user_workout_id: number) => {
   if(authToken == null) {
     return [];
   }
-  const url = `http://localhost:3000/user_workout_exercises?user_workout_id=${user_workout_id}`;
+  const url = `${BaseURL()}/user_workout_exercises?user_workout_id=${user_workout_id}`;
   try {
     const apiCall = await fetch(url, {
       headers: {
@@ -45,7 +46,7 @@ export const CreateOrFetchUserWorkout = async (month: number, year: number, day:
     return null;
   }
 
-  const url = `http://localhost:3000/user_workouts`;
+  const url = `${BaseURL()}/user_workouts`;
 
   try {
     const apiCall = await fetch(url, {
@@ -76,7 +77,7 @@ export const GetWorkoutsForMonthAndYear = async (month: number, year: number) =>
     return [];
   }
 
-  const url = `http://localhost:3000/user_workouts?month=${month}&year=${year}`;
+  const url = `${BaseURL()}/user_workouts?month=${month}&year=${year}`;
 
   try {
     const apiCall = await fetch(url, {

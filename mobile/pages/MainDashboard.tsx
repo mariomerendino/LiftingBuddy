@@ -59,7 +59,6 @@ const MainDashboard = ({ navigation }: Props) => {
           setYear(date.year);
         }}
         onDayPress={async (day) => {
-          console.log(day);
           let workout = await CreateOrFetchUserWorkout(
             day.month,
             day.year,

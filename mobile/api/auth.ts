@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import { BaseURL } from './url';
 
 export const deleteAuthToken = async (): Promise<void> => {
   await SecureStore.deleteItemAsync("authtoken");
@@ -19,7 +20,7 @@ export const GetAuthToken = async (): Promise<string> => {
 
 export const userHasValidAuthToken = async (): Promise<boolean> => {
   const authToken = await GetAuthToken();
-  const url = `http://localhost:3000/token_validators/`;
+  const url = `${BaseURL()}/token_validators/`;
 
   if(authToken == null) {
     return false;
@@ -46,7 +47,8 @@ export const userHasValidAuthToken = async (): Promise<boolean> => {
 }
 
 export const login = async (username: string, password: string): Promise<boolean> => {
-  const url = "http://localhost:3000/logins/";
+  const url = `${BaseURL()}/logins/`;
+
   const body = {
     username: username,
     password: password,
