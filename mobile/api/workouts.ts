@@ -1,6 +1,13 @@
 import { GetAuthToken } from "./auth";
 import { BaseURL } from "./url";
 
+export interface Exercise {
+  id: number,
+  name: string,
+  primary_muscles: Array<string>,
+  secondarY_muscles: Array<string>,
+
+}
 export interface Workout {
   id: number,
   user_id: number,
@@ -67,6 +74,24 @@ export const CreateOrFetchUserWorkout = async (month: number, year: number, day:
   catch {
     alert("There was an error.")
     return null;
+  }
+}
+
+export const GetExercisesForMuscle = async (muscle: string) => {
+  const url = `${BaseURL()}/exercises?primary_muscle=${muscle}`;
+
+  try {
+    const apiCall = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data: Array<Exercise> = await apiCall.json();
+    return data;
+  }
+  catch {
+    alert("There was an error.")
+    return [];
   }
 }
 
