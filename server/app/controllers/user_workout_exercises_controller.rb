@@ -2,8 +2,7 @@ class UserWorkoutExercisesController < ApplicationController
   before_action :require_login
 
   def show
-    puts("HEREEEEE")
-    render json: user_workout.user_workout_exercises
+    render json: user_workout.user_workout_exercises.to_json(include: :exercise)
   end
 
   def create
