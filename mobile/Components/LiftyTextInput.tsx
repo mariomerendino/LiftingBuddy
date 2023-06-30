@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 interface Props {
-  onChange: (text: string) => void;
+  onChange: (text: string | number) => void;
   placeholder: string;
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions;
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: "100%",
     paddingHorizontal: 10,
+    backgroundColor: "white",
   },
 });
 

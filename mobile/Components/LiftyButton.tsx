@@ -3,13 +3,19 @@ import { Pressable, StyleSheet, Text } from "react-native";
 interface Props {
   onPress: () => void;
   text: string;
+  disabled?: boolean;
 }
 
-const LiftyButton = ({ onPress, text }: Props) => {
+const LiftyButton = ({ onPress, text, disabled = false }: Props) => {
   return (
     <Pressable
+      disabled={disabled}
       onPress={onPress}
-      style={({ pressed }) => [styles.base, pressed && styles.pressed]}
+      style={({ pressed }) => [
+        styles.base,
+        pressed && styles.pressed,
+        disabled && styles.disabled,
+      ]}
     >
       <Text>{text}</Text>
     </Pressable>
@@ -29,6 +35,9 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.8,
+  },
+  disabled: {
+    opacity: 0.4,
   },
 });
 
