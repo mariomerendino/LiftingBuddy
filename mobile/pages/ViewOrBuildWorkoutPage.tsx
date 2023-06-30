@@ -3,6 +3,7 @@ import { RouteProp } from "@react-navigation/native";
 import { RootDrawerParamList } from "../App";
 import { useEffect, useState, useMemo } from "react";
 import {
+  CreateUserWorkoutExercise,
   GetAllUserWorkoutExercises,
   GetExercisesForMuscle,
   Workout,
@@ -85,6 +86,21 @@ const BuildWorkout = ({ workout }: BuildWorkoutProps) => {
     );
   }, [selectedMuscle, selectedExercise, reps, sets]);
 
+  const buttonPress = async () => {
+    if (selectedExercise === null) {
+      return;
+    }
+    const userWorkoutExercise: WorkoutExercise = {
+      exercise_id: selectedExercise,
+      weight,
+      reps,
+      sets,
+      user_workout_id: workout.id,
+    };
+
+    await CreateUserWorkoutExercise(userWorkoutExercise);
+  };
+
   return (
     <View>
       <View style={styles.dropdowns}>
@@ -132,7 +148,7 @@ const BuildWorkout = ({ workout }: BuildWorkoutProps) => {
       />
       <LiftyButton
         text="Add To Workout"
-        onPress={() => {}}
+        onPress={buttonPress}
         disabled={!buttonEnabled}
       />
     </View>

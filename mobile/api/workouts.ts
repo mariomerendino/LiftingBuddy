@@ -16,11 +16,36 @@ export interface Workout {
 }
 
 export interface WorkoutExercise {
-  id: number,
+  id?: number,
   reps: number,
-  sets: string,
-  weight: string,
+  sets: number,
+  weight: number,
+  exercise_id: number,
   user_workout_id: number,
+}
+
+export const CreateUserWorkoutExercise = async (workoutExercise: WorkoutExercise) => {
+  const authToken = await GetAuthToken();
+
+  if(authToken == null) {
+    return [];
+  }
+  const url = `${BaseURL()}/user_workout_exercises`;
+  try {
+    const apiCall = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+      },
+      body: JSON.stringify(workoutExercise)
+    })
+    await apiCall.json();
+  }
+  catch {
+    alert("There was an error.")
+    return [];
+  }
 }
 
 export const GetAllUserWorkoutExercises = async (user_workout_id: number) => {
