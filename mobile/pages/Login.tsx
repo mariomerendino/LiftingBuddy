@@ -41,6 +41,7 @@ const Login = () => {
             }}
             placeholder="Username"
             customStyles={styles.textinput}
+            value={username}
           />
           <LiftyTextInput
             onChange={(value) => {
@@ -49,6 +50,7 @@ const Login = () => {
             placeholder="Password"
             secureTextEntry={true}
             customStyles={styles.textinput}
+            value={password}
           />
           <LiftyButton
             text="Log In"

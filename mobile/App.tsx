@@ -22,6 +22,7 @@ export interface WorkoutPageParams {
 export interface EditWorkoutPageParams {
   workout: Workout;
   workoutExercise?: WorkoutExercise;
+  isEdit?: boolean;
 }
 
 export type RootDrawerParamList = {

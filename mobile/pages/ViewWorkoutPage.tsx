@@ -2,7 +2,11 @@ import { View, Text, StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootDrawerParamList } from "../App";
 import { useEffect, useState } from "react";
-import { GetAllUserWorkoutExercises, WorkoutExercise } from "../api/workouts";
+import {
+  GetAllUserWorkoutExercises,
+  Workout,
+  WorkoutExercise,
+} from "../api/workouts";
 import EditButton from "../Components/EditButton";
 import LiftyButton from "../Components/LiftyButton";
 import { NavigationProp } from "@react-navigation/native";
@@ -36,18 +40,28 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
 
   return (
     <View>
-      <AllWorkoutExercises workoutExercises={workoutExercises} />
+      {workout && (
+        <AllWorkoutExercises
+          workout={workout}
+          workoutExercises={workoutExercises}
+          navigation={navigation}
+        />
+      )}
       <LiftyButton onPress={navigateToBuildPage} text="Add Exercise" />
     </View>
   );
 };
 
 interface AllWorkoutExercisestProps {
+  workout: Workout;
   workoutExercises: Array<WorkoutExercise>;
+  navigation: NavigationProp<RootDrawerParamList>;
 }
 
 const AllWorkoutExercises = ({
   workoutExercises,
+  navigation,
+  workout,
 }: AllWorkoutExercisestProps) => {
   return (
     <View>
@@ -64,7 +78,15 @@ const AllWorkoutExercises = ({
           <Text>{workoutExercise.reps}</Text>
           <Text>{workoutExercise.sets}</Text>
           <Text>{workoutExercise.reps}</Text>
-          <EditButton onPress={() => {}} />
+          <EditButton
+            onPress={() => {
+              navigation.navigate("Edit Workout", {
+                workout,
+                workoutExercise,
+                isEdit: true,
+              });
+            }}
+          />
         </View>
       ))}
     </View>

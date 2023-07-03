@@ -12,6 +12,7 @@ interface Props {
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions;
   customStyles?: StyleProp<ViewStyle>;
+  value: string | number;
 }
 
 const LiftyTextInput = ({
@@ -20,6 +21,7 @@ const LiftyTextInput = ({
   secureTextEntry = false,
   keyboardType = "default",
   customStyles = undefined,
+  value,
 }: Props) => {
   return (
     <TextInput
@@ -28,6 +30,7 @@ const LiftyTextInput = ({
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
+      value={String(value)}
     />
   );
 };

@@ -21,6 +21,8 @@ interface Props {
 
 const BuildOrEditWorkout = ({ route, navigation }: Props) => {
   const workout = route.params.workout;
+  const workoutExercise = route.params.workoutExercise;
+  const isEdit = route.params.isEdit ?? false;
 
   const [exerciseDropdownOpen, setExerciseDropdownOpen] = useState(false);
   const [muscleDropdownOpen, setMuscleDropdownOpen] = useState(false);
@@ -36,15 +38,33 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
     { label: string; value: number }[]
   >([]);
 
+  const getExercisesForMuscle = async () => {
+    if (selectedMuscle) {
+      const exercises = await GetExercisesForMuscle(selectedMuscle);
+      setExercisesForDropdown(
+        exercises.map((ex) => ({ label: ex.name, value: ex.id }))
+      );
+    }
+  };
+
   useEffect(() => {
-    const getExercisesForMuscle = async () => {
-      if (selectedMuscle) {
-        const exercises = await GetExercisesForMuscle(selectedMuscle);
-        setExercisesForDropdown(
-          exercises.map((ex) => ({ label: ex.name, value: ex.id }))
-        );
-      }
-    };
+    if (isEdit && workoutExercise != null) {
+      setSelectedMuscle(workoutExercise.exercise?.primary_muscles[0] ?? null);
+      getExercisesForMuscle();
+      setSelectedExercise(workoutExercise.exercise?.id ?? null);
+      setWeight(workoutExercise.weight);
+      setReps(workoutExercise.reps);
+      setSets(workoutExercise.sets);
+    } else {
+      setSelectedMuscle(null);
+      setSelectedExercise(null);
+      setWeight(0);
+      setReps(0);
+      setSets(0);
+    }
+  }, [isEdit, workoutExercise]);
+
+  useEffect(() => {
     getExercisesForMuscle();
   }, [selectedMuscle]);
 
@@ -107,6 +127,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
         }}
         placeholder="Number of Reps"
         keyboardType="numeric"
+        value={reps}
       />
       <LiftyTextInput
         onChange={(value) => {
@@ -114,6 +135,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
         }}
         placeholder="Number of Sets"
         keyboardType="numeric"
+        value={sets}
       />
       <LiftyTextInput
         onChange={(value) => {
@@ -121,9 +143,10 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
         }}
         placeholder="Weight"
         keyboardType="numeric"
+        value={weight}
       />
       <LiftyButton
-        text="Add To Workout"
+        text={isEdit ? "Confirm Edits" : "Add To Workout"}
         onPress={buttonPress}
         disabled={!buttonEnabled}
       />
