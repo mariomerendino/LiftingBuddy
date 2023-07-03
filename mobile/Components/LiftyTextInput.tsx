@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 interface Props {
-  onChange: (text: string | number) => void;
+  onChange: (text: string) => void | ((text: number) => void);
   placeholder: string;
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions;

@@ -77,7 +77,7 @@ const AllWorkoutExercises = ({
           <Text>{workoutExercise.exercise?.name}</Text>
           <Text>{workoutExercise.reps}</Text>
           <Text>{workoutExercise.sets}</Text>
-          <Text>{workoutExercise.reps}</Text>
+          <Text>{workoutExercise.weight}</Text>
           <EditButton
             onPress={() => {
               navigation.navigate("Edit Workout", {

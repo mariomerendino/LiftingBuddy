@@ -4,8 +4,8 @@ import { RootDrawerParamList } from "../App";
 import { useEffect, useState, useMemo } from "react";
 import {
   CreateUserWorkoutExercise,
+  EditUserWorkoutExercise,
   GetExercisesForMuscle,
-  Workout,
   WorkoutExercise,
 } from "../api/workouts";
 import LiftyDropdown from "../Components/LiftyDropdown";
@@ -49,6 +49,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
 
   useEffect(() => {
     if (isEdit && workoutExercise != null) {
+      navigation.setOptions({ headerTitle: "Edit Workout Exercise" });
       setSelectedMuscle(workoutExercise.exercise?.primary_muscles[0] ?? null);
       getExercisesForMuscle();
       setSelectedExercise(workoutExercise.exercise?.id ?? null);
@@ -56,6 +57,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
       setReps(workoutExercise.reps);
       setSets(workoutExercise.sets);
     } else {
+      navigation.setOptions({ headerTitle: "Add Workout Exercise" });
       setSelectedMuscle(null);
       setSelectedExercise(null);
       setWeight(0);
@@ -92,8 +94,12 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
       sets,
       user_workout_id: workout.id,
     };
-
-    await CreateUserWorkoutExercise(userWorkoutExercise);
+    if (isEdit) {
+      userWorkoutExercise["id"] = workoutExercise?.id;
+      await EditUserWorkoutExercise(userWorkoutExercise);
+    } else {
+      await CreateUserWorkoutExercise(userWorkoutExercise);
+    }
     navigation.goBack();
   };
 

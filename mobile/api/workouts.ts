@@ -25,6 +25,30 @@ export interface WorkoutExercise {
   exercise?: Exercise,
 }
 
+export const EditUserWorkoutExercise = async (workoutExercise: WorkoutExercise) => {
+  const authToken = await GetAuthToken();
+
+  if(authToken == null) {
+    return [];
+  }
+  const url = `${BaseURL()}/user_workout_exercises`;
+  try {
+    const apiCall = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+      },
+      body: JSON.stringify(workoutExercise)
+    })
+    await apiCall.json();
+  }
+  catch {
+    alert("There was an error.")
+    return [];
+  }
+}
+
 export const CreateUserWorkoutExercise = async (workoutExercise: WorkoutExercise) => {
   const authToken = await GetAuthToken();
 

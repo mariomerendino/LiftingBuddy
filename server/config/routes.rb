@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   resource :users, only: [:create, :show] 
   resource :exercises, only: [:show]
   resource :user_workouts, only: [:show, :create]
-  resource :user_workout_exercises, only: [:show, :create]
+  resource :user_workout_exercises, only: [:show, :create, :update]
 end
