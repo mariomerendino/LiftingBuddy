@@ -4,7 +4,6 @@ import { RootDrawerParamList } from "../App";
 import { useEffect, useState, useMemo } from "react";
 import {
   CreateUserWorkoutExercise,
-  GetAllUserWorkoutExercises,
   GetExercisesForMuscle,
   Workout,
   WorkoutExercise,
@@ -13,45 +12,25 @@ import LiftyDropdown from "../Components/LiftyDropdown";
 import { musclesObjectForDropdown } from "../utils/muscles";
 import LiftyTextInput from "../Components/LiftyTextInput";
 import LiftyButton from "../Components/LiftyButton";
+import { NavigationProp } from "@react-navigation/native";
 
 interface Props {
-  route: RouteProp<RootDrawerParamList, "Workout">;
+  route: RouteProp<RootDrawerParamList, "Edit Workout">;
+  navigation: NavigationProp<RootDrawerParamList>;
 }
-const ViewOrBuildWorkoutPage = ({ route }: Props) => {
+
+const BuildOrEditWorkout = ({ route, navigation }: Props) => {
   const workout = route.params.workout;
 
-  const [workoutExercises, setWorkoutExercises] = useState<
-    Array<WorkoutExercise>
-  >([]);
-
-  useEffect(() => {
-    const getWorkoutExersises = async () => {
-      if (workout) {
-        setWorkoutExercises(await GetAllUserWorkoutExercises(workout.id));
-      }
-    };
-    getWorkoutExersises();
-  }, [workout]);
-
-  return (
-    <View>
-      <Text>{JSON.stringify(workout)}</Text>
-      <Text>{JSON.stringify(workoutExercises)}</Text>
-      {workout && <BuildWorkout workout={workout} />}
-    </View>
-  );
-};
-
-interface BuildWorkoutProps {
-  workout: Workout;
-}
-
-const BuildWorkout = ({ workout }: BuildWorkoutProps) => {
   const [exerciseDropdownOpen, setExerciseDropdownOpen] = useState(false);
   const [muscleDropdownOpen, setMuscleDropdownOpen] = useState(false);
 
   const [selectedMuscle, setSelectedMuscle] = useState<null | string>(null);
   const [selectedExercise, setSelectedExercise] = useState<null | number>(null);
+
+  const [weight, setWeight] = useState(0);
+  const [sets, setSets] = useState(0);
+  const [reps, setReps] = useState(0);
 
   const [execisesForDropdown, setExercisesForDropdown] = useState<
     { label: string; value: number }[]
@@ -68,10 +47,6 @@ const BuildWorkout = ({ workout }: BuildWorkoutProps) => {
     };
     getExercisesForMuscle();
   }, [selectedMuscle]);
-
-  const [weight, setWeight] = useState(0);
-  const [sets, setSets] = useState(0);
-  const [reps, setReps] = useState(0);
 
   const exerciseDropdownPlaceHolder =
     selectedMuscle == null ? "Please Select a muscle group first" : undefined;
@@ -99,6 +74,7 @@ const BuildWorkout = ({ workout }: BuildWorkoutProps) => {
     };
 
     await CreateUserWorkoutExercise(userWorkoutExercise);
+    navigation.goBack();
   };
 
   return (
@@ -167,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ViewOrBuildWorkoutPage;
+export default BuildOrEditWorkout;

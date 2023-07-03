@@ -22,6 +22,7 @@ export interface WorkoutExercise {
   weight: number,
   exercise_id: number,
   user_workout_id: number,
+  exercise?: Exercise,
 }
 
 export const CreateUserWorkoutExercise = async (workoutExercise: WorkoutExercise) => {

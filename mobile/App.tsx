@@ -3,14 +3,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./pages/Login";
 import { GetAuthToken, userHasValidAuthToken } from "./api/auth";
-import { useRef, useEffect, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import MainDashboard from "./pages/MainDashboard";
 import NotificationsPage from "./pages/NotificationsPage";
 import SettingsPage from "./pages/SettingsPage";
 import AuthTokenContext from "./Contexts/AuthTokenContext";
-import ViewOrBuildWorkoutPage from "./pages/ViewOrBuildWorkoutPage";
-import { Workout } from "./api/workouts";
+import ViewWorkoutPage from "./pages/ViewWorkoutPage";
+import { Workout, WorkoutExercise } from "./api/workouts";
+import BuildOrEditWorkout from "./pages/BuildOrEditWorkout";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,11 +19,17 @@ export interface WorkoutPageParams {
   workout: Workout | null;
 }
 
+export interface EditWorkoutPageParams {
+  workout: Workout;
+  workoutExercise?: WorkoutExercise;
+}
+
 export type RootDrawerParamList = {
   Home: {};
   Notifications: {};
   Settings: {};
   Workout: WorkoutPageParams;
+  "Edit Workout": EditWorkoutPageParams;
 };
 
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
@@ -75,8 +82,16 @@ const MainPage = () => {
       <Drawer.Screen name="Settings" component={SettingsPage} />
       <Drawer.Screen
         name="Workout"
-        component={ViewOrBuildWorkoutPage}
+        component={ViewWorkoutPage}
         initialParams={{ workout: null }}
+        options={{ drawerItemStyle: { display: "none" } }}
+      />
+      <Drawer.Screen
+        name="Edit Workout"
+        component={BuildOrEditWorkout}
+        initialParams={{
+          workout: { created_at: "", id: 0, user_id: 0, workout_date: "" },
+        }}
         options={{ drawerItemStyle: { display: "none" } }}
       />
     </Drawer.Navigator>
