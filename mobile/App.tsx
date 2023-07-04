@@ -12,6 +12,7 @@ import AuthTokenContext from "./Contexts/AuthTokenContext";
 import ViewWorkoutPage from "./pages/ViewWorkoutPage";
 import { Workout, WorkoutExercise } from "./api/workouts";
 import BuildOrEditWorkout from "./pages/BuildOrEditWorkout";
+import IconButton from "./Components/IconButton";
 
 const Stack = createNativeStackNavigator();
 
@@ -77,7 +78,7 @@ export default function App() {
 
 const MainPage = () => {
   return (
-    <Drawer.Navigator initialRouteName="Home">
+    <Drawer.Navigator initialRouteName="Home" backBehavior="history">
       <Drawer.Screen name="Home" component={MainDashboard} />
       <Drawer.Screen name="Notifications" component={NotificationsPage} />
       <Drawer.Screen name="Settings" component={SettingsPage} />
@@ -85,7 +86,17 @@ const MainPage = () => {
         name="Workout"
         component={ViewWorkoutPage}
         initialParams={{ workout: null }}
-        options={{ drawerItemStyle: { display: "none" } }}
+        options={({ navigation }) => ({
+          drawerItemStyle: { display: "none" },
+          headerLeft: () => (
+            <IconButton
+              type="back"
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          ),
+        })}
       />
       <Drawer.Screen
         name="Edit Workout"
@@ -93,7 +104,17 @@ const MainPage = () => {
         initialParams={{
           workout: { created_at: "", id: 0, user_id: 0, workout_date: "" },
         }}
-        options={{ drawerItemStyle: { display: "none" } }}
+        options={({ navigation }) => ({
+          drawerItemStyle: { display: "none" },
+          headerLeft: () => (
+            <IconButton
+              type="back"
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
+          ),
+        })}
       />
     </Drawer.Navigator>
   );

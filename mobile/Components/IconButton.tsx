@@ -1,15 +1,23 @@
 import { Image, Pressable, StyleSheet } from "react-native";
 
+type IconTypes = "edit" | "back";
+
 interface Props {
   onPress: () => void;
+  type?: IconTypes;
 }
-const EditButton = ({ onPress }: Props) => {
+
+const typeTable = {
+  edit: require("../assets/edit-icon.png"),
+  back: require("../assets/back-icon.png"),
+};
+const IconButton = ({ type = "edit", onPress }: Props) => {
   return (
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [styles.base, pressed && styles.pressed]}
     >
-      <Image source={require("../assets/edit-icon.png")} style={styles.image} />
+      <Image source={typeTable[type]} style={styles.image} />
     </Pressable>
   );
 };
@@ -25,4 +33,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditButton;
+export default IconButton;

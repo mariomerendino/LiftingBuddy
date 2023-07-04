@@ -127,6 +127,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
           />
         </View>
       </View>
+      <Text>Reps</Text>
       <LiftyTextInput
         onChange={(value) => {
           setReps(Number(value));
@@ -135,6 +136,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
         keyboardType="numeric"
         value={reps}
       />
+      <Text>Sets</Text>
       <LiftyTextInput
         onChange={(value) => {
           setSets(Number(value));
@@ -143,6 +145,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
         keyboardType="numeric"
         value={sets}
       />
+      <Text>Weight</Text>
       <LiftyTextInput
         onChange={(value) => {
           setWeight(Number(value));

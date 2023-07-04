@@ -7,7 +7,7 @@ import {
   Workout,
   WorkoutExercise,
 } from "../api/workouts";
-import EditButton from "../Components/EditButton";
+import IconButton from "../Components/IconButton";
 import LiftyButton from "../Components/LiftyButton";
 import { NavigationProp } from "@react-navigation/native";
 
@@ -78,7 +78,8 @@ const AllWorkoutExercises = ({
           <Text>{workoutExercise.reps}</Text>
           <Text>{workoutExercise.sets}</Text>
           <Text>{workoutExercise.weight}</Text>
-          <EditButton
+          <IconButton
+            type="edit"
             onPress={() => {
               navigation.navigate("Edit Workout", {
                 workout,
