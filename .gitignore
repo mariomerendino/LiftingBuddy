@@ -20,4 +20,5 @@ server/tmp/
 server/log/
 
 server/.DS_Store
+server/app.yaml
 .DS_Store
