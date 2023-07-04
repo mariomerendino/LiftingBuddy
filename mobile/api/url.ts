@@ -1,8 +1,9 @@
 import {Platform} from 'react-native'
+import { useProduction } from '../utils/ApiUtils'
 
-const isProd = false;
 export const BaseURL = () => {
-  if(isProd) {
+  console.log(useProduction())
+  if(useProduction()) {
     return "https://liftingbuddy-91d262180055.herokuapp.com"
   }
   if(Platform.OS === 'ios') {
