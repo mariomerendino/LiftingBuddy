@@ -1,11 +1,27 @@
 import { GetAuthToken } from "./auth";
 import { BaseURL } from "./url";
-
+export type Muscle =
+  | "abdominals"
+  | "hamstrings"
+  | "calves"
+  | "shoulders"
+  | "adductors"
+  | "glutes"
+  | "quadriceps"
+  | "biceps"
+  | "forearms"
+  | "abductors"
+  | "triceps"
+  | "chest"
+  | "lower back"
+  | "traps"
+  | "back"
+  | "lats";
 export interface Exercise {
   id: number,
   name: string,
-  primary_muscles: Array<string>,
-  secondarY_muscles: Array<string>,
+  primary_muscles: Array<Muscle>,
+  secondarY_muscles: Array<Muscle>,
 
 }
 export interface Workout {

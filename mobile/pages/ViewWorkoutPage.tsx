@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootDrawerParamList } from "../App";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import {
 import IconButton from "../Components/IconButton";
 import LiftyButton from "../Components/LiftyButton";
 import { NavigationProp } from "@react-navigation/native";
+import MuscleIcon from "../Components/MuscleIcon";
 
 interface Props {
   route: RouteProp<RootDrawerParamList, "Workout">;
@@ -24,6 +25,7 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
   >([]);
 
   useEffect(() => {
+    navigation.setOptions({ headerTitle: `Workout ${workout?.workout_date}` });
     const getWorkoutExersises = async () => {
       if (workout) {
         setWorkoutExercises(await GetAllUserWorkoutExercises(workout.id));
@@ -65,30 +67,37 @@ const AllWorkoutExercises = ({
 }: AllWorkoutExercisestProps) => {
   return (
     <View>
-      <View style={styles.workoutExercise}>
-        <Text>Exercise</Text>
-        <Text>Reps</Text>
-        <Text>Sets</Text>
-        <Text>Weight</Text>
-        <Text>Edit</Text>
-      </View>
       {workoutExercises.map((workoutExercise) => (
-        <View style={styles.workoutExercise} key={workoutExercise.id}>
-          <Text>{workoutExercise.exercise?.name}</Text>
-          <Text>{workoutExercise.reps}</Text>
-          <Text>{workoutExercise.sets}</Text>
-          <Text>{workoutExercise.weight}</Text>
-          <IconButton
-            type="edit"
-            onPress={() => {
-              navigation.navigate("Edit Workout", {
-                workout,
-                workoutExercise,
-                isEdit: true,
-              });
-            }}
+        <Pressable
+          style={styles.workoutExercise}
+          key={workoutExercise.id}
+          onPress={() => {
+            navigation.navigate("Edit Workout", {
+              workout,
+              workoutExercise,
+              isEdit: true,
+            });
+          }}
+        >
+          <MuscleIcon
+            muscle={workoutExercise.exercise?.primary_muscles[0] ?? "lats"}
           />
-        </View>
+          <Text style={styles.workoutName}>
+            {workoutExercise.exercise?.name}
+          </Text>
+          <View style={styles.forwardIcon}>
+            <IconButton
+              type="forward"
+              onPress={() => {
+                navigation.navigate("Edit Workout", {
+                  workout,
+                  workoutExercise,
+                  isEdit: true,
+                });
+              }}
+            />
+          </View>
+        </Pressable>
       ))}
     </View>
   );
@@ -98,8 +107,22 @@ export default ViewWorkoutPage;
 
 const styles = StyleSheet.create({
   workoutExercise: {
+    height: 40,
     flexDirection: "row",
-    justifyContent: "space-evenly",
     borderBottomColor: "lightgray",
+    alignItems: "center",
+    backgroundColor: "#DBDBDB",
+    paddingLeft: 20,
+    marginBottom: 20,
+    marginHorizontal: 20,
+    borderRadius: 10,
+  },
+  workoutName: {
+    paddingLeft: 20,
+  },
+  forwardIcon: {
+    flex: 1,
+    margin: "auto",
+    paddingRight: 20,
   },
 });
