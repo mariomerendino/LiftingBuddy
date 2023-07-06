@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootDrawerParamList } from "../App";
 import { useEffect, useState, useMemo } from "react";
@@ -104,61 +104,65 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
   };
 
   return (
-    <View>
-      <View style={styles.dropdowns}>
-        <View style={styles.dropdown}>
-          <LiftyDropdown
-            items={muscles}
-            setOpen={setMuscleDropdownOpen}
-            open={muscleDropdownOpen}
-            setValue={setSelectedMuscle}
-            value={selectedMuscle}
-          />
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <View style={styles.dropdowns}>
+          <View style={styles.dropdown}>
+            <LiftyDropdown
+              items={muscles}
+              setOpen={setMuscleDropdownOpen}
+              open={muscleDropdownOpen}
+              setValue={setSelectedMuscle}
+              value={selectedMuscle}
+            />
+          </View>
+          <View style={styles.dropdown}>
+            <LiftyDropdown
+              disabled={selectedMuscle === null}
+              open={exerciseDropdownOpen}
+              setOpen={setExerciseDropdownOpen}
+              items={execisesForDropdown}
+              setValue={setSelectedExercise}
+              value={selectedExercise}
+              placeholder={exerciseDropdownPlaceHolder}
+            />
+          </View>
         </View>
-        <View style={styles.dropdown}>
-          <LiftyDropdown
-            disabled={selectedMuscle === null}
-            open={exerciseDropdownOpen}
-            setOpen={setExerciseDropdownOpen}
-            items={execisesForDropdown}
-            setValue={setSelectedExercise}
-            value={selectedExercise}
-            placeholder={exerciseDropdownPlaceHolder}
-          />
-        </View>
+        <Text>Reps</Text>
+        <LiftyTextInput
+          onChange={(value) => {
+            setReps(Number(value));
+          }}
+          placeholder="Number of Reps"
+          keyboardType="numeric"
+          value={reps}
+        />
+        <Text>Sets</Text>
+        <LiftyTextInput
+          onChange={(value) => {
+            setSets(Number(value));
+          }}
+          placeholder="Number of Sets"
+          keyboardType="numeric"
+          value={sets}
+        />
+        <Text>Weight</Text>
+        <LiftyTextInput
+          onChange={(value) => {
+            setWeight(Number(value));
+          }}
+          placeholder="Weight"
+          keyboardType="numeric"
+          value={weight}
+        />
+      </ScrollView>
+      <View style={{ height: 80, paddingHorizontal: 30 }}>
+        <LiftyButton
+          text={isEdit ? "Confirm Edits" : "Add To Workout"}
+          onPress={buttonPress}
+          disabled={!buttonEnabled}
+        />
       </View>
-      <Text>Reps</Text>
-      <LiftyTextInput
-        onChange={(value) => {
-          setReps(Number(value));
-        }}
-        placeholder="Number of Reps"
-        keyboardType="numeric"
-        value={reps}
-      />
-      <Text>Sets</Text>
-      <LiftyTextInput
-        onChange={(value) => {
-          setSets(Number(value));
-        }}
-        placeholder="Number of Sets"
-        keyboardType="numeric"
-        value={sets}
-      />
-      <Text>Weight</Text>
-      <LiftyTextInput
-        onChange={(value) => {
-          setWeight(Number(value));
-        }}
-        placeholder="Weight"
-        keyboardType="numeric"
-        value={weight}
-      />
-      <LiftyButton
-        text={isEdit ? "Confirm Edits" : "Add To Workout"}
-        onPress={buttonPress}
-        disabled={!buttonEnabled}
-      />
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootDrawerParamList } from "../App";
 import { useEffect, useState } from "react";
@@ -9,8 +9,9 @@ import {
 } from "../api/workouts";
 import IconButton from "../Components/IconButton";
 import LiftyButton from "../Components/LiftyButton";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useIsFocused } from "@react-navigation/native";
 import MuscleIcon from "../Components/MuscleIcon";
+import LoadingBicep from "../Components/LoadingBicep";
 
 interface Props {
   route: RouteProp<RootDrawerParamList, "Workout">;
@@ -19,6 +20,7 @@ interface Props {
 
 const ViewWorkoutPage = ({ route, navigation }: Props) => {
   const workout = route.params.workout;
+  const isFocused = useIsFocused();
 
   const [workoutExercises, setWorkoutExercises] = useState<
     Array<WorkoutExercise>
@@ -32,7 +34,7 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
       }
     };
     getWorkoutExersises();
-  }, [workout]);
+  }, [workout, isFocused]);
 
   const navigateToBuildPage = () => {
     if (workout) {
@@ -40,8 +42,17 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
     }
   };
 
+  if (workoutExercises == null || workoutExercises.length == 0) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Text>Add Exercises!</Text>
+        <LoadingBicep />
+      </View>
+    );
+  }
+
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       {workout && (
         <AllWorkoutExercises
           workout={workout}
@@ -49,7 +60,9 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
           navigation={navigation}
         />
       )}
-      <LiftyButton onPress={navigateToBuildPage} text="Add Exercise" />
+      <View style={{ height: 80, paddingHorizontal: 30 }}>
+        <LiftyButton onPress={navigateToBuildPage} text="Add Exercise" />
+      </View>
     </View>
   );
 };
@@ -66,7 +79,7 @@ const AllWorkoutExercises = ({
   workout,
 }: AllWorkoutExercisestProps) => {
   return (
-    <View>
+    <ScrollView style={{ paddingTop: 20 }}>
       {workoutExercises.map((workoutExercise) => (
         <Pressable
           style={styles.workoutExercise}
@@ -99,7 +112,7 @@ const AllWorkoutExercises = ({
           </View>
         </Pressable>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -107,7 +120,7 @@ export default ViewWorkoutPage;
 
 const styles = StyleSheet.create({
   workoutExercise: {
-    height: 40,
+    height: 60,
     flexDirection: "row",
     borderBottomColor: "lightgray",
     alignItems: "center",
