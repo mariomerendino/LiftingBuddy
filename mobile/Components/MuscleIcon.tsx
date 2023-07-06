@@ -5,6 +5,15 @@ interface Props {
   muscle: Muscle;
 }
 
+const stringToColour = (string: string) => {
+  let hash = 0;
+  for (let i = 0; i < string.length; i++) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash;
+  }
+  return `hsl(${hash % 360}, ${100}%, ${75}%)`;
+};
+
 const muscleImage = {
   abdominals: require(`../assets/muscles/abdominals.png`),
   hamstrings: require(`../assets/muscles/hamstrings.png`),
@@ -26,7 +35,9 @@ const muscleImage = {
 
 const MuscleIcon = ({ muscle }: Props) => {
   return (
-    <View style={styles.iconwrapper}>
+    <View
+      style={(styles.iconwrapper, { backgroundColor: stringToColour(muscle) })}
+    >
       <Image style={styles.icon} source={muscleImage[muscle]} />
     </View>
   );
