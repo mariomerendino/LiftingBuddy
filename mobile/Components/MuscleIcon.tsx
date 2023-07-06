@@ -25,7 +25,7 @@ const muscleImage = {
   forearms: require(`../assets/muscles/forearms.png`),
   abductors: require(`../assets/muscles/abductors.png`),
   chest: require(`../assets/muscles/chest.png`),
-  "lower back": require(`../assets/muscles/lower back.png`),
+  "lower back": require(`../assets/muscles/lowerback.png`),
   traps: require(`../assets/muscles/traps.png`),
   back: require(`../assets/muscles/back.png`),
   lats: require(`../assets/muscles/lats.png`),

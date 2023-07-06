@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet } from "react-native";
 
-type IconTypes = "edit" | "back" | "forward";
+type IconTypes = "edit" | "back" | "forward" | "downward";
 
 interface Props {
   onPress: () => void;
@@ -11,6 +11,7 @@ const typeTable = {
   edit: require("../assets/edit-icon.png"),
   back: require("../assets/back-icon.png"),
   forward: require("../assets/back-icon.png"),
+  downward: require("../assets/back-icon.png"),
 };
 const IconButton = ({ type = "edit", onPress }: Props) => {
   return (
@@ -20,6 +21,7 @@ const IconButton = ({ type = "edit", onPress }: Props) => {
         styles.base,
         pressed && styles.pressed,
         type === "forward" && styles.forward,
+        type === "downward" && styles.downward,
       ]}
     >
       <Image source={typeTable[type]} style={styles.image} />
@@ -38,6 +40,9 @@ const styles = StyleSheet.create({
   },
   forward: {
     transform: [{ rotate: "180deg" }],
+  },
+  downward: {
+    transform: [{ rotate: "-90deg" }],
   },
 });
 

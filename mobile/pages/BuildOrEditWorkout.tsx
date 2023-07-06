@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { RootDrawerParamList } from "../App";
 import { useEffect, useState, useMemo } from "react";
@@ -8,11 +8,12 @@ import {
   GetExercisesForMuscle,
   WorkoutExercise,
 } from "../api/workouts";
-import LiftyDropdown from "../Components/LiftyDropdown";
 import { musclesObjectForDropdown } from "../utils/muscles";
 import LiftyTextInput from "../Components/LiftyTextInput";
 import LiftyButton from "../Components/LiftyButton";
 import { NavigationProp } from "@react-navigation/native";
+import LiftySelectBottomSheet from "../Components/LiftySelectBottomSheet";
+import LiftySelectButton from "../Components/LiftySelectButton";
 
 interface Props {
   route: RouteProp<RootDrawerParamList, "Edit Workout">;
@@ -70,8 +71,29 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
     getExercisesForMuscle();
   }, [selectedMuscle]);
 
-  const exerciseDropdownPlaceHolder =
-    selectedMuscle == null ? "Please Select a muscle group first" : undefined;
+  const exerciseSelectButtonText = (): string => {
+    if (selectedMuscle == null) {
+      return "Please Select a muscle group first";
+    } else if (selectedExercise == null) {
+      return "Please Select an Exercise";
+    } else if (selectedExercise != null) {
+      const selected = execisesForDropdown.find(
+        (ex) => ex.value === selectedExercise
+      );
+      if (selected) {
+        return selected.label;
+      }
+    }
+    return "";
+  };
+
+  const muscleSelectButtonText = () => {
+    if (selectedMuscle == null) {
+      return "Please Select a muscle group";
+    } else {
+      return selectedMuscle;
+    }
+  };
 
   const muscles = useMemo(() => musclesObjectForDropdown(), []);
   const buttonEnabled = useMemo(() => {
@@ -108,23 +130,22 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
       <ScrollView>
         <View style={styles.dropdowns}>
           <View style={styles.dropdown}>
-            <LiftyDropdown
-              items={muscles}
-              setOpen={setMuscleDropdownOpen}
-              open={muscleDropdownOpen}
-              setValue={setSelectedMuscle}
-              value={selectedMuscle}
+            <LiftySelectButton
+              onPress={() => {
+                setMuscleDropdownOpen(true);
+                setExerciseDropdownOpen(false);
+              }}
+              text={muscleSelectButtonText()}
             />
           </View>
           <View style={styles.dropdown}>
-            <LiftyDropdown
-              disabled={selectedMuscle === null}
-              open={exerciseDropdownOpen}
-              setOpen={setExerciseDropdownOpen}
-              items={execisesForDropdown}
-              setValue={setSelectedExercise}
-              value={selectedExercise}
-              placeholder={exerciseDropdownPlaceHolder}
+            <LiftySelectButton
+              onPress={() => {
+                setExerciseDropdownOpen(true);
+                setMuscleDropdownOpen(false);
+              }}
+              text={exerciseSelectButtonText()}
+              disabled={selectedMuscle == null}
             />
           </View>
         </View>
@@ -163,6 +184,18 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
           disabled={!buttonEnabled}
         />
       </View>
+      <LiftySelectBottomSheet
+        setIsOpen={setExerciseDropdownOpen}
+        isOpen={exerciseDropdownOpen}
+        items={execisesForDropdown}
+        setValue={setSelectedExercise}
+      />
+      <LiftySelectBottomSheet
+        items={muscles}
+        setIsOpen={setMuscleDropdownOpen}
+        isOpen={muscleDropdownOpen}
+        setValue={setSelectedMuscle}
+      />
     </View>
   );
 };

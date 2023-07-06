@@ -2,7 +2,6 @@ import {Platform} from 'react-native'
 import { useProduction } from '../utils/ApiUtils'
 
 export const BaseURL = () => {
-  console.log(useProduction())
   if(useProduction()) {
     return "https://liftingbuddy-91d262180055.herokuapp.com"
   }
