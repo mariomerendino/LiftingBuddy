@@ -6,7 +6,7 @@ import { GetAuthToken, userHasValidAuthToken } from "./api/auth";
 import { useEffect, useState } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import MainDashboard from "./pages/MainDashboard";
-import NotificationsPage from "./pages/NotificationsPage";
+import InsightsPage from "./pages/InsightsPage";
 import SettingsPage from "./pages/SettingsPage";
 import AuthTokenContext from "./Contexts/AuthTokenContext";
 import ViewWorkoutPage from "./pages/ViewWorkoutPage";
@@ -28,7 +28,7 @@ export interface EditWorkoutPageParams {
 
 export type RootDrawerParamList = {
   Home: {};
-  Notifications: {};
+  Insights: {};
   Settings: {};
   Workout: WorkoutPageParams;
   "Edit Workout": EditWorkoutPageParams;
@@ -80,7 +80,7 @@ const MainPage = () => {
   return (
     <Drawer.Navigator initialRouteName="Home" backBehavior="history">
       <Drawer.Screen name="Home" component={MainDashboard} />
-      <Drawer.Screen name="Notifications" component={NotificationsPage} />
+      <Drawer.Screen name="Insights" component={InsightsPage} />
       <Drawer.Screen name="Settings" component={SettingsPage} />
       <Drawer.Screen
         name="Workout"
