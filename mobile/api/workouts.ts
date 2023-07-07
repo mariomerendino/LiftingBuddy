@@ -28,7 +28,8 @@ export interface Workout {
   id: number,
   user_id: number,
   workout_date: string,
-  created_at: string
+  created_at: string,
+  user_workout_exercises: Array<WorkoutExercise>,
 }
 
 export interface WorkoutExercise {

@@ -7,7 +7,8 @@ class UserWorkoutsController < ApplicationController
     user_workouts = UserWorkout.
       where(user_id: current_user.id).
       where("workout_date BETWEEN ? AND ?", beginning_of_month, end_of_month)
-    render json: user_workouts.to_json
+
+    render json: user_workouts.to_json(include: :user_workout_exercises)
   end
 
   def create

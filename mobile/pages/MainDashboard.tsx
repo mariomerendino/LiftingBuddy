@@ -40,10 +40,18 @@ const MainDashboard = ({ navigation }: Props) => {
     let object: HighlighedDates = {};
     if (workouts && workouts.length > 0) {
       workouts.forEach((workout) => {
+        let color;
+        if (workout.user_workout_exercises.length === 0) {
+          color = "lightgray";
+        } else if (workout.user_workout_exercises.length < 4) {
+          color = "lightblue";
+        } else {
+          color = "lightgreen";
+        }
         object[`${workout.workout_date}`] = {
           selected: true,
           marked: true,
-          selectedColor: "lightblue",
+          selectedColor: color,
         };
       });
     }
