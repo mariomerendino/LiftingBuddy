@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import IconButton from "./IconButton";
 
 interface Item {
   label: string;
@@ -12,6 +13,7 @@ interface Props {
   setValue: (arg0: any) => void;
   isOpen: boolean;
   setIsOpen: (arg0: boolean) => void;
+  value?: any;
 }
 
 const LiftySelectBottomSheet = ({
@@ -19,6 +21,7 @@ const LiftySelectBottomSheet = ({
   setValue,
   isOpen,
   setIsOpen,
+  value = undefined,
 }: Props) => {
   const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["25%", "50%"], []);
@@ -33,16 +36,17 @@ const LiftySelectBottomSheet = ({
 
   const renderItem = useCallback(
     (item: Item) => (
-      <View key={item.value} style={styles.itemContainer}>
-        <Pressable
-          onPress={() => {
-            setValue(item.value);
-            setIsOpen(false);
-          }}
-        >
-          <Text>{item.label}</Text>
-        </Pressable>
-      </View>
+      <Pressable
+        onPress={() => {
+          setValue(item.value);
+          setIsOpen(false);
+        }}
+        key={item.value}
+        style={styles.itemContainer}
+      >
+        <Text>{item.label}</Text>
+        {item.value === value && <IconButton type="check" onPress={() => {}} />}
+      </Pressable>
     ),
     []
   );
@@ -71,9 +75,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   itemContainer: {
-    padding: 6,
+    paddingHorizontal: 20,
     margin: 6,
     backgroundColor: "#eee",
+    height: 60,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

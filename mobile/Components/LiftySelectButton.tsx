@@ -8,7 +8,11 @@ interface Props {
 }
 const LiftySelectButton = ({ onPress, text, disabled = false }: Props) => {
   return (
-    <Pressable style={styles.base} onPress={onPress} disabled={disabled}>
+    <Pressable
+      style={({ pressed }) => [styles.base, pressed && styles.pressed]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text>{text}</Text>
       <IconButton onPress={onPress} type="downward" />
     </Pressable>
@@ -26,6 +30,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "lightgray",
+  },
+  pressed: {
+    opacity: 0.6,
   },
 });
 

@@ -1,6 +1,6 @@
 import { Image, Pressable, StyleSheet } from "react-native";
 
-type IconTypes = "edit" | "back" | "forward" | "downward";
+type IconTypes = "edit" | "back" | "check" | "forward" | "downward";
 
 interface Props {
   onPress: () => void;
@@ -9,6 +9,7 @@ interface Props {
 
 const typeTable = {
   edit: require("../assets/edit-icon.png"),
+  check: require("../assets/check-icon.png"),
   back: require("../assets/back-icon.png"),
   forward: require("../assets/back-icon.png"),
   downward: require("../assets/back-icon.png"),

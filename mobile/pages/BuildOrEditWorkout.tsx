@@ -132,8 +132,12 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
           <View style={styles.dropdown}>
             <LiftySelectButton
               onPress={() => {
-                setMuscleDropdownOpen(true);
-                setExerciseDropdownOpen(false);
+                if (muscleDropdownOpen) {
+                  setMuscleDropdownOpen(false);
+                } else {
+                  setMuscleDropdownOpen(true);
+                  setExerciseDropdownOpen(false);
+                }
               }}
               text={muscleSelectButtonText()}
             />
@@ -141,8 +145,12 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
           <View style={styles.dropdown}>
             <LiftySelectButton
               onPress={() => {
-                setExerciseDropdownOpen(true);
-                setMuscleDropdownOpen(false);
+                if (exerciseDropdownOpen) {
+                  setExerciseDropdownOpen(false);
+                } else {
+                  setExerciseDropdownOpen(true);
+                  setMuscleDropdownOpen(false);
+                }
               }}
               text={exerciseSelectButtonText()}
               disabled={selectedMuscle == null}
@@ -189,12 +197,14 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
         isOpen={exerciseDropdownOpen}
         items={execisesForDropdown}
         setValue={setSelectedExercise}
+        value={selectedExercise}
       />
       <LiftySelectBottomSheet
         items={muscles}
         setIsOpen={setMuscleDropdownOpen}
         isOpen={muscleDropdownOpen}
         setValue={setSelectedMuscle}
+        value={selectedMuscle}
       />
     </View>
   );
