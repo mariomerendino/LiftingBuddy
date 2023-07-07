@@ -1,7 +1,7 @@
 import { GetAuthToken } from "./auth";
 import { BaseURL } from "./url";
 
-interface oneRepMax {
+export interface oneRepMax {
   labels: Array<string>
   data: Array<number>
 }
