@@ -1,5 +1,6 @@
-import { Text } from "react-native";
+import OneRepMaxCharts from "./OneRepMaxCharts";
+
 const InsightsPage = () => {
-  return <Text>Insights Page</Text>;
+  return <OneRepMaxCharts />;
 };
 export default InsightsPage;

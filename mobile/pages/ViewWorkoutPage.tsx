@@ -47,6 +47,9 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>Add Exercises!</Text>
         <LoadingBicep />
+        <View style={{ height: 80, paddingHorizontal: 30 }}>
+          <LiftyButton onPress={navigateToBuildPage} text="Add Exercise" />
+        </View>
       </View>
     );
   }
