@@ -12,7 +12,7 @@ interface Props {
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions;
   customStyles?: StyleProp<ViewStyle>;
-  value: string | number;
+  value: string | number | null;
 }
 
 const LiftyTextInput = ({
@@ -30,7 +30,7 @@ const LiftyTextInput = ({
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
       keyboardType={keyboardType}
-      value={String(value)}
+      value={value != null ? String(value) : undefined}
     />
   );
 };

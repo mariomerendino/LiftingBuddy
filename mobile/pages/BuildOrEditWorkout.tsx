@@ -31,9 +31,9 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
   const [selectedMuscle, setSelectedMuscle] = useState<null | string>(null);
   const [selectedExercise, setSelectedExercise] = useState<null | number>(null);
 
-  const [weight, setWeight] = useState(0);
-  const [sets, setSets] = useState(0);
-  const [reps, setReps] = useState(0);
+  const [weight, setWeight] = useState<null | number>(null);
+  const [sets, setSets] = useState<null | number>(null);
+  const [reps, setReps] = useState<null | number>(null);
 
   const [execisesForDropdown, setExercisesForDropdown] = useState<
     { label: string; value: number }[]
@@ -61,9 +61,9 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
       navigation.setOptions({ headerTitle: "Add Workout Exercise" });
       setSelectedMuscle(null);
       setSelectedExercise(null);
-      setWeight(0);
-      setReps(0);
-      setSets(0);
+      setWeight(null);
+      setReps(null);
+      setSets(null);
     }
   }, [isEdit, workoutExercise]);
 
@@ -111,9 +111,9 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
     }
     const userWorkoutExercise: WorkoutExercise = {
       exercise_id: selectedExercise,
-      weight,
-      reps,
-      sets,
+      weight: weight ?? 0,
+      reps: reps ?? 0,
+      sets: sets ?? 0,
       user_workout_id: workout.id,
     };
     if (isEdit) {
