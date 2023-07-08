@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { GetOneRepMaxes, maxes, oneRepMax } from "../api/one_rep_maxes";
+import { GetOneRepMaxes, maxes, oneRepMax } from "../api/insights";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions, Text, View } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel-v4";

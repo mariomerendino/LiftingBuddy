@@ -21,4 +21,5 @@ server/log/
 
 server/.DS_Store
 server/app.yaml
+server/.env.development.local
 .DS_Store

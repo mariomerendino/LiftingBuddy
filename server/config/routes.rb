@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   resource :user_workouts, only: [:show, :create]
   resource :user_workout_exercises, only: [:show, :create, :update]
   resource :one_rep_maxes, only: [:show]
+  resource :insights, only: [:show]
 
 end

@@ -28,6 +28,41 @@ export const ExmptyOneRepMaxes: maxes = {
   }
 }
 
+
+export interface Insights {
+  average_days_per_week: number,
+}
+
+export const emptyInsights = {
+  average_days_per_week: 0,
+  ai_recommendation: ""
+}
+
+
+export const GetInsights = async (): Promise<Insights> => {
+  const authToken = await GetAuthToken();
+
+
+  if(authToken == null) {
+    return emptyInsights;
+  }
+  const url = `${BaseURL()}/insights`;
+  try {
+    const apiCall = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authToken,
+      },
+    })
+    const data: Insights = await apiCall.json();
+    return data;
+  }
+  catch {
+    alert("There was an error.")
+    return emptyInsights;
+  }
+} 
+
 export const GetOneRepMaxes = async (): Promise<maxes> => {
   const authToken = await GetAuthToken();
 
