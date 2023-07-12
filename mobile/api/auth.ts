@@ -37,6 +37,7 @@ export const userHasValidAuthToken = async (): Promise<boolean> => {
     if (data.valid_token) {
       return true;
     } else {
+      await deleteAuthToken()
       return false;
     } 
   }
