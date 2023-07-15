@@ -56,27 +56,23 @@ export default function App() {
       value={{ authToken, setAuthToken, authTokenIsValid, setAuthTokenIsValid }}
     >
       <NavigationContainer>
-        <Stack.Navigator>
-          {authTokenIsValid ? (
-            <Stack.Screen
-              name="MainPage"
-              component={MainPage}
-              options={{ headerShown: false }}
-            />
-          ) : (
+        {authTokenIsValid ? (
+          <MainNavigation />
+        ) : (
+          <Stack.Navigator>
             <Stack.Screen
               name="Login"
               component={Login}
               options={{ headerShown: false }}
             />
-          )}
-        </Stack.Navigator>
+          </Stack.Navigator>
+        )}
       </NavigationContainer>
     </AuthTokenContext.Provider>
   );
 }
 
-const MainPage = () => {
+const MainNavigation = () => {
   return (
     <Drawer.Navigator initialRouteName="Home" backBehavior="history">
       <Drawer.Screen name="Home" component={MainDashboard} />
@@ -102,7 +98,13 @@ const MainPage = () => {
         name="Edit Workout"
         component={BuildOrEditWorkout}
         initialParams={{
-          workout: { created_at: "", id: 0, user_id: 0, workout_date: "" },
+          workout: {
+            created_at: "",
+            id: 0,
+            user_id: 0,
+            workout_date: "",
+            user_workout_exercises: [],
+          },
         }}
         options={({ navigation }) => ({
           drawerItemStyle: { display: "none" },
