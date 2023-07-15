@@ -76,3 +76,32 @@ export const login = async (username: string, password: string): Promise<boolean
     return false
   }
 }
+
+export const Register = async (username: string, password: string): Promise<boolean> => {
+  const url = `${BaseURL()}/users/`;
+
+  const body = {
+    username: username,
+    password: password,
+  };
+
+  try {
+    const apiCall = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+    const data = await apiCall.json()
+    if (data['token']) {
+      await setAuthToken(data['token'])
+      return true;
+    } else {
+      return false
+    }
+  } catch (e) {
+    alert('There was an error connecting to the server. Try again later.');
+    return false
+  }
+}

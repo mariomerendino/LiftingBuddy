@@ -1,16 +1,80 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext, useState } from "react";
-import { GetAuthToken, login } from "../api/auth";
+import { GetAuthToken, Register, login } from "../api/auth";
 
 import LiftyTextInput from "../Components/LiftyTextInput";
 import LiftyButton from "../Components/LiftyButton";
 import AuthTokenContext from "../Contexts/AuthTokenContext";
 import LoadingBicep from "../Components/LoadingBicep";
 
-const Login = () => {
+interface LoginOrRegistrationFormProps {
+  setLoading: (arg0: boolean) => void;
+}
+
+interface user {
+  username: string;
+  password: string;
+  passwordConfirmation: string;
+}
+
+const RegistrationForm = ({ setLoading }: LoginOrRegistrationFormProps) => {
+  const [user, setUser] = useState<user>({
+    username: "",
+    password: "",
+    passwordConfirmation: "",
+  });
+
+  const { setAuthToken } = useContext(AuthTokenContext);
+
+  const attemptCreation = async () => {
+    setLoading(true);
+    if (await Register(user.username, user.password)) {
+      setAuthToken(await GetAuthToken());
+    }
+    setLoading(false);
+  };
+
+  return (
+    <View style={styles.textInputContainer}>
+      <LiftyTextInput
+        onChange={(value) => {
+          setUser((prev) => ({ ...prev, username: value }));
+        }}
+        placeholder="Username"
+        customStyles={styles.textinput}
+        value={user.username}
+      />
+      <LiftyTextInput
+        onChange={(value) => {
+          setUser((prev) => ({ ...prev, password: value }));
+        }}
+        placeholder="Password"
+        secureTextEntry={true}
+        customStyles={styles.textinput}
+        value={user.password}
+      />
+      <LiftyTextInput
+        onChange={(value) => {
+          setUser((prev) => ({ ...prev, passwordConfirmation: value }));
+        }}
+        placeholder="Password Confirmation"
+        secureTextEntry={true}
+        customStyles={styles.textinput}
+        value={user.passwordConfirmation}
+      />
+      <LiftyButton
+        text="Log In"
+        onPress={() => {
+          attemptCreation();
+        }}
+      />
+    </View>
+  );
+};
+
+const LoginForm = ({ setLoading }: LoginOrRegistrationFormProps) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const { setAuthToken } = useContext(AuthTokenContext);
 
@@ -22,6 +86,39 @@ const Login = () => {
     setLoading(false);
   };
 
+  return (
+    <View style={styles.textInputContainer}>
+      <LiftyTextInput
+        onChange={(value) => {
+          setUsername(value);
+        }}
+        placeholder="Username"
+        customStyles={styles.textinput}
+        value={username}
+      />
+      <LiftyTextInput
+        onChange={(value) => {
+          setPassword(value);
+        }}
+        placeholder="Password"
+        secureTextEntry={true}
+        customStyles={styles.textinput}
+        value={password}
+      />
+      <LiftyButton
+        text="Log In"
+        onPress={() => {
+          attemptLogin();
+        }}
+      />
+    </View>
+  );
+};
+
+const Login = () => {
+  const [loading, setLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+
   if (loading) {
     return (
       <View style={styles.container}>
@@ -30,35 +127,29 @@ const Login = () => {
     );
   }
 
+  const RegisterOrLoginText = () => {
+    const text = isRegistering ? "Been here before? " : "New around here? ";
+
+    return (
+      <View style={{ flexDirection: "row", paddingVertical: 20 }}>
+        <Text>{text}</Text>
+        <Pressable onPress={() => setIsRegistering((prev) => !prev)}>
+          <Text style={{ color: "lightblue" }}>Click here!</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.innerContatiner}>
         <Text style={styles.header}>💪</Text>
-        <View style={styles.textInputContainer}>
-          <LiftyTextInput
-            onChange={(value) => {
-              setUsername(value);
-            }}
-            placeholder="Username"
-            customStyles={styles.textinput}
-            value={username}
-          />
-          <LiftyTextInput
-            onChange={(value) => {
-              setPassword(value);
-            }}
-            placeholder="Password"
-            secureTextEntry={true}
-            customStyles={styles.textinput}
-            value={password}
-          />
-          <LiftyButton
-            text="Log In"
-            onPress={() => {
-              attemptLogin();
-            }}
-          />
-        </View>
+        {isRegistering ? (
+          <RegistrationForm setLoading={setLoading} />
+        ) : (
+          <LoginForm setLoading={setLoading} />
+        )}
+        <RegisterOrLoginText />
       </View>
     </View>
   );
@@ -72,12 +163,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#C3D5DA",
   },
   innerContatiner: {
-    flex: 1,
     justifyContent: "center",
     backgroundColor: "white",
     alignItems: "center",
+    minHieght: "80vh",
     width: "80%",
-    maxHeight: "50%",
     borderWidth: 2,
     borderRadius: 20,
     borderColor: "lightgray",
