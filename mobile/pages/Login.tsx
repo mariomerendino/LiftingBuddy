@@ -18,6 +18,7 @@ interface user {
 }
 
 const RegistrationForm = ({ setLoading }: LoginOrRegistrationFormProps) => {
+  const [passwordHasError, setPasswordHasError] = useState(false);
   const [user, setUser] = useState<user>({
     username: "",
     password: "",
@@ -27,6 +28,11 @@ const RegistrationForm = ({ setLoading }: LoginOrRegistrationFormProps) => {
   const { setAuthToken } = useContext(AuthTokenContext);
 
   const attemptCreation = async () => {
+    if (user.password != user.passwordConfirmation) {
+      setPasswordHasError(true);
+      alert("Passwords must match");
+      return;
+    }
     setLoading(true);
     if (await Register(user.username, user.password)) {
       setAuthToken(await GetAuthToken());
@@ -46,24 +52,28 @@ const RegistrationForm = ({ setLoading }: LoginOrRegistrationFormProps) => {
       />
       <LiftyTextInput
         onChange={(value) => {
+          setPasswordHasError(false);
           setUser((prev) => ({ ...prev, password: value }));
         }}
         placeholder="Password"
         secureTextEntry={true}
         customStyles={styles.textinput}
         value={user.password}
+        hasError={passwordHasError}
       />
       <LiftyTextInput
         onChange={(value) => {
+          setPasswordHasError(false);
           setUser((prev) => ({ ...prev, passwordConfirmation: value }));
         }}
         placeholder="Password Confirmation"
         secureTextEntry={true}
         customStyles={styles.textinput}
         value={user.passwordConfirmation}
+        hasError={passwordHasError}
       />
       <LiftyButton
-        text="Log In"
+        text="Register"
         onPress={() => {
           attemptCreation();
         }}
