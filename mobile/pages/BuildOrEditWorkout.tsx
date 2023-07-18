@@ -14,6 +14,7 @@ import LiftyButton from "../Components/LiftyButton";
 import { NavigationProp } from "@react-navigation/native";
 import LiftySelectBottomSheet from "../Components/LiftySelectBottomSheet";
 import LiftySelectButton from "../Components/LiftySelectButton";
+import LiftyText from "../Components/LiftyText";
 
 interface Props {
   route: RouteProp<RootDrawerParamList, "Edit Workout">;
@@ -157,7 +158,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
             />
           </View>
         </View>
-        <Text>Reps</Text>
+        <LiftyText>Reps</LiftyText>
         <LiftyTextInput
           onChange={(value) => {
             setReps(Number(value));
@@ -166,7 +167,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
           keyboardType="numeric"
           value={reps}
         />
-        <Text>Sets</Text>
+        <LiftyText>Sets</LiftyText>
         <LiftyTextInput
           onChange={(value) => {
             setSets(Number(value));
@@ -175,7 +176,7 @@ const BuildOrEditWorkout = ({ route, navigation }: Props) => {
           keyboardType="numeric"
           value={sets}
         />
-        <Text>Weight</Text>
+        <LiftyText>Weight</LiftyText>
         <LiftyTextInput
           onChange={(value) => {
             setWeight(Number(value));

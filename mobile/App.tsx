@@ -13,6 +13,8 @@ import ViewWorkoutPage from "./pages/ViewWorkoutPage";
 import { Workout, WorkoutExercise } from "./api/workouts";
 import BuildOrEditWorkout from "./pages/BuildOrEditWorkout";
 import IconButton from "./Components/IconButton";
+import { useFonts } from "expo-font";
+import FontLoadedContext from "./Contexts/FontLoadedContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +41,9 @@ const Drawer = createDrawerNavigator<RootDrawerParamList>();
 export default function App() {
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [authTokenIsValid, setAuthTokenIsValid] = useState(false);
+  const [isLoaded] = useFonts({
+    OptimisticDisplayRegular: require("./assets/fonts/OptimisticDisplayRegular.ttf"),
+  });
 
   useEffect(() => {
     const validateAuthToken = async () => {
@@ -55,19 +60,21 @@ export default function App() {
     <AuthTokenContext.Provider
       value={{ authToken, setAuthToken, authTokenIsValid, setAuthTokenIsValid }}
     >
-      <NavigationContainer>
-        {authTokenIsValid ? (
-          <MainNavigation />
-        ) : (
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
+      <FontLoadedContext.Provider value={{ fontLoaded: isLoaded }}>
+        <NavigationContainer>
+          {authTokenIsValid ? (
+            <MainNavigation />
+          ) : (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          )}
+        </NavigationContainer>
+      </FontLoadedContext.Provider>
     </AuthTokenContext.Provider>
   );
 }

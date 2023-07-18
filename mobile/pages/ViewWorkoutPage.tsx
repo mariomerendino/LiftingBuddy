@@ -12,6 +12,7 @@ import LiftyButton from "../Components/LiftyButton";
 import { NavigationProp, useIsFocused } from "@react-navigation/native";
 import MuscleIcon from "../Components/MuscleIcon";
 import LoadingBicep from "../Components/LoadingBicep";
+import LiftyText from "../Components/LiftyText";
 
 interface Props {
   route: RouteProp<RootDrawerParamList, "Workout">;
@@ -45,7 +46,7 @@ const ViewWorkoutPage = ({ route, navigation }: Props) => {
   if (workoutExercises == null || workoutExercises.length == 0) {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Add Exercises!</Text>
+        <LiftyText>Add Exercises!</LiftyText>
         <LoadingBicep />
         <View style={{ height: 80, paddingHorizontal: 30 }}>
           <LiftyButton onPress={navigateToBuildPage} text="Add Exercise" />

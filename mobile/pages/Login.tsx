@@ -6,6 +6,7 @@ import LiftyTextInput from "../Components/LiftyTextInput";
 import LiftyButton from "../Components/LiftyButton";
 import AuthTokenContext from "../Contexts/AuthTokenContext";
 import LoadingBicep from "../Components/LoadingBicep";
+import LiftyText from "../Components/LiftyText";
 
 interface LoginOrRegistrationFormProps {
   setLoading: (arg0: boolean) => void;
@@ -142,7 +143,7 @@ const Login = () => {
 
     return (
       <View style={{ flexDirection: "row", paddingVertical: 20 }}>
-        <Text>{text}</Text>
+        <LiftyText>{text}</LiftyText>
         <Pressable onPress={() => setIsRegistering((prev) => !prev)}>
           <Text style={{ color: "lightblue" }}>Click here!</Text>
         </Pressable>

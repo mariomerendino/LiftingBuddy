@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text } from "react-native";
+import LiftyText from "./LiftyText";
 
 interface Props {
   onPress: () => void;
@@ -17,7 +18,7 @@ const LiftyButton = ({ onPress, text, disabled = false }: Props) => {
         disabled && styles.disabled,
       ]}
     >
-      <Text>{text}</Text>
+      <LiftyText>{text}</LiftyText>
     </Pressable>
   );
 };

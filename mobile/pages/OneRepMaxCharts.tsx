@@ -3,6 +3,7 @@ import { GetOneRepMaxes, maxes, oneRepMax } from "../api/insights";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions, Text, View } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel-v4";
+import LiftyText from "../Components/LiftyText";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
@@ -22,14 +23,14 @@ const OneRepMaxCharts = () => {
   }, []);
 
   if (maxes == null) {
-    return <Text>Empty</Text>;
+    return <LiftyText>Empty</LiftyText>;
   }
 
   const data = Object.values(maxes);
 
   return (
     <View>
-      <Text> One Rep Max Tracker </Text>
+      <LiftyText> One Rep Max Tracker </LiftyText>
       <Carousel
         layout={"default"}
         ref={isCarousel}
@@ -80,7 +81,7 @@ const Chart = ({ item, index, dataIndex }: ChartProps) => {
             justifyContent: "center",
           }}
         >
-          <Text>You dont have any data on this lift!</Text>
+          <LiftyText>You dont have any data on this lift!</LiftyText>
         </View>
         <Text style={{ fontSize: 30 }}>{LIFTS[index]}</Text>
       </View>

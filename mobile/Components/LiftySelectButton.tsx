@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 import IconButton from "./IconButton";
+import LiftyText from "./LiftyText";
 
 interface Props {
   onPress: () => void;
@@ -13,7 +14,7 @@ const LiftySelectButton = ({ onPress, text, disabled = false }: Props) => {
       onPress={onPress}
       disabled={disabled}
     >
-      <Text>{text}</Text>
+      <LiftyText>{text}</LiftyText>
       <IconButton onPress={onPress} type="downward" />
     </Pressable>
   );

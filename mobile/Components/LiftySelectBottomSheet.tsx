@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Pressable, View, Text, StyleSheet } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import IconButton from "./IconButton";
+import LiftyText from "./LiftyText";
 
 interface Item {
   label: string;
@@ -44,7 +45,7 @@ const LiftySelectBottomSheet = ({
         key={item.value}
         style={styles.itemContainer}
       >
-        <Text>{item.label}</Text>
+        <LiftyText>{item.label}</LiftyText>
         {item.value === value && <IconButton type="check" onPress={() => {}} />}
       </Pressable>
     ),
