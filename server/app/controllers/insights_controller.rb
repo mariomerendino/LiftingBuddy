@@ -1,4 +1,4 @@
-class InsightsController
+class InsightsController < ApplicationController
   before_action :require_login
   def show
     render json: {
