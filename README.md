@@ -24,3 +24,7 @@
 - run `chmod 777 startup` to make the file executable
 - run `./startup`
 - This will spin up two terminals, one for the Mobile app, one for the rails server. 
+
+## Demo
+
+<video src="https://github.com/mariomerendino/LiftingBuddy/assets/16505119/dc190677-5498-48da-90ad-e357ac51812f"></video>
